@@ -1,0 +1,19 @@
+name: email-spam-filter
+channels:
+  - conda-forge
+  - nodefaults
+category: main
+dependencies:
+  - python=3.12.*
+  - pip
+  - poetry=1.8.*
+
+  - "libblas=*=*openblas"
+  - numpy
+  - scipy
+  - scikit-learn
+platforms:
+  - linux-64
+  - osx-64
+  - osx-arm64
+  - win-64

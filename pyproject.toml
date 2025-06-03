@@ -1,0 +1,127 @@
+[tool.mypy]
+mypy_path = "src"
+strict = true
+exclude = ["^sandbox/"]
+
+[tool.pytest.ini_options]
+testpaths = ["src", "tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = ["sandbox"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+explicit-preview-rules = true
+extend-select = ["RUF022"]
+preview = true
+select = [
+    "A",
+    "AIR",
+    "ANN",
+    "ARG",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C",
+    "COM",
+    "D",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FA",
+    "FBT",
+    "FIX",
+    "FLY",
+    "G",
+    "I",
+    "ICN",
+    "INP",
+    "INT",
+    "ISC",
+    "LOG",
+    "N",
+    "NPY",
+    "PD",
+    "PERF",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "SLOT",
+    "T",
+    "TCH",
+    "TID",
+    "TRIO",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+]
+ignore = [
+    "ANN1",
+    "COM812",
+    "COM819",
+    "D206",
+    "D300",
+    "E111",
+    "E114",
+    "E117",
+    "ISC001",
+    "ISC002",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "S311",
+    "W191",
+]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-values-type = "tuple"
+
+[tool.ruff.lint.isort]
+known-first-party = ["email_spam_filter"]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["D", "INP001", "T201"]
+"tests/*" = ["D1", "INP001", "S101"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.poetry]
+name = "email-spam-filter"
+version = "0.1.0"
+description = "A personal learning project: building a machine‑learning‑powered spam filter for email."
+authors = ["Jack Swerdlow <jfswerdlow@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+ruff = "^0.11.9"
+mypy = "^1.15.0"
+pre-commit = "^4.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
