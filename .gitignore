@@ -214,3 +214,7 @@ cython_debug/
 
 # Sandbox folder
 sandbox/
+
+# User Config File (To prevent accidentally commit of personal email address)
+
+user_config.yml
