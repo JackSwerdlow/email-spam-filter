@@ -4,7 +4,10 @@ A personal learning project: building a machine‑learning‑powered spam filter
 
 ## Overview
 
-This is a personal project that uses machine learning to classify emails as spam or ham (real).
+This is a personal project that uses machine learning to classify emails as spam or ham (real). It supports:
+
+- Fetching and storing your own inbox data [Currently only from Virgin Media inboxes.]
+---
 
 ## Quick‑Start Guide
 
@@ -43,9 +46,23 @@ email-spam-filter/
 │   ├─ raw/                           # Raw .eml files.
 │   └─ raw_external/                  # Raw unformatted external databases (e.g TREC Public Copora)
 ├─ scripts/                           # Example scripts to show functionality.
+│   └─ fetch_inbox.py/                # Script that fetches emails as .eml files from an inbox using IMAP.
 ├─ src/
 │   └─ email_spam_filter/             # The email_spam_filter package.
-│       └─ __init__.py
+│       ├─ __init__.py
+│       ├─ common/                    # Module with common utilities and classes used in other modules.
+│       │   ├─ __init__.py
+│       │   ├─ constants.py
+│       │   ├─ functions.py
+│       │   └─ paths.py
+│       └─ data/                      # Module for data handling.
+│           ├─ __init__.py
+│           └─ collection/
+│               ├─ __init__.py
+│               └─ personal/
+│                   ├─ __init__.py
+│                   └─ functions.py
+│
 ├─ tests/                             # Unit tests [WIP]
 │   └─ __init__.py
 ├─ .gitignore
@@ -53,5 +70,34 @@ email-spam-filter/
 ├─ environment.yml
 ├─ poetry.lock
 ├─ pyproject.toml
-└─ README.md
+├─ README.md
+└─ user_config.yml                    # User config file to allow for gathering personal email data.
+```
+## Configuration
+
+Project behaviour can be customized in `user_config.yml`:
+
+```yaml
+user_email: "your_username@example.com"
+imap_host: "imap.virginmedia.com"
+keyring_service: "virgin-imap"
+folder_map:
+  INBOX: inbox
+  Spam: spam
+```
+
+## Running Example Scripts
+
+```bash
+# Ensure you are in the email-spam-filter conda environment
+conda activate email-spam-filter
+poetry install --with=dev
+
+#1 Edit the user_config.yml file to ensure details are correct.
+#Then run the following, replacing with your own email and password when prompted.
+#This will be encrypted at ~/.local/share/python_keyring/ , no plain text passwords don't worry!
+python -m keyring set virgin-imap your_username@virginmedia.com
+
+#2 Fetch your inbox
+poetry run python scripts/fetch_imap_inbox.py
 ```
