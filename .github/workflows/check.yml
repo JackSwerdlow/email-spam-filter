@@ -1,0 +1,35 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Quality checks and tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up conda environment
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: conda-lock.yml
+          environment-name: email-spam-filter
+          cache-environment: true
+      - name: Install dependencies
+        run: python -m poetry install --with=dev
+      - name: Lint with Ruff
+        run: python -m poetry run ruff check .
+      - name: Type check with mypy
+        run: python -m poetry run mypy .
+      - name: Test with pytest
+        run: python -m poetry run pytest
+      - name: Check with pre-commit
+        run: pre-commit run -a
