@@ -119,6 +119,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+keyrings-alt = "^5.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
