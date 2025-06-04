@@ -19,6 +19,7 @@ from email_spam_filter.common.constants import (
 
 if typing.TYPE_CHECKING:
     import collections.abc
+    import pathlib
 
 logger = logging.getLogger(__name__)
 
@@ -90,24 +91,28 @@ def fetch_folder(
         yield uid.decode(), raw, label
 
 
-def save_raw_email(uid: str, raw_bytes: bytes, label: str) -> None:
+def save_raw_email(
+    uid: str, raw_bytes: bytes, label: str, path: pathlib.Path = paths.RAW_DIR
+) -> None:
     """Save raw email bytes to disk under the appropriate label subdirectory.
 
     Args:
         uid: The message UID identifier.
         raw_bytes: The raw RFC822 message contents.
         label: The folder label, used both in the filename and subdirectory.
+        path: Path to the directory where raw emails will be saved.
     """
-    target_dir = paths.RAW_DIR / f"{label}_personal"
+    target_dir = path / f"{label}_personal"
     target_dir.mkdir(parents=True, exist_ok=True)
     (target_dir / f"{uid}_{label}.eml").write_bytes(raw_bytes)
 
 
-def fetch_and_save_emails(limit: int | None = None) -> None:
+def fetch_and_save_emails(limit: int | None = None, *, path: pathlib.Path = paths.RAW_DIR) -> None:
     """Fetch and save messages from all folders defined in the user-defined FOLDER_MAP.
 
     Args:
         limit: Maximum number of messages to fetch (most recent). If None, fetch all.
+        path: Path to the directory where raw emails will be saved. (Default: `paths.RAW_DIR`)
     """
     logger.info("Starting email download process.")
     if USER_EMAIL == "your_username@example.com":
@@ -123,7 +128,7 @@ def fetch_and_save_emails(limit: int | None = None) -> None:
 
         for folder, label in FOLDER_MAP.items():
             for uid, raw, lbl in fetch_folder(imap, folder, label, limit):
-                save_raw_email(uid, raw, lbl)
+                save_raw_email(uid, raw, lbl, path)
         logger.info("Logging out from IMAP server.")
         imap.logout()
     logger.info("Email download process completed.")
