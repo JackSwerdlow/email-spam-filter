@@ -29,7 +29,7 @@ conda-lock install -n email-spam-filter
 conda activate email-spam-filter
 
 #5 Install Poetry dependancies
-poetry install --with=dev
+poetry install
 
 # 6 Install pre-commit hooks (If you plan on contributing)
 poetry run pre-commit install
@@ -63,8 +63,7 @@ email-spam-filter/
 │                   ├─ __init__.py
 │                   └─ functions.py
 │
-├─ tests/                             # Unit tests [WIP]
-│   └─ __init__.py
+├─ tests/                             # Unit tests
 ├─ .gitignore
 ├─ conda-lock.yml
 ├─ environment.yml
@@ -91,7 +90,7 @@ folder_map:
 ```bash
 # Ensure you are in the email-spam-filter conda environment
 conda activate email-spam-filter
-poetry install --with=dev
+poetry install
 
 #1 Edit the user_config.yml file to ensure details are correct.
 #Then run the following, replacing with your own email and password when prompted.
