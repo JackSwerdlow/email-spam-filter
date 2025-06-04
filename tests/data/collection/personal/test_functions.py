@@ -9,7 +9,11 @@ import typing
 import keyring
 import pytest
 
-from email_spam_filter.data.collection.personal.functions import fetch_folder, get_imap_password
+from email_spam_filter.data.collection.personal.functions import (
+    fetch_folder,
+    get_imap_password,
+    save_raw_email,
+)
 
 if typing.TYPE_CHECKING:
     import pytest_mock
@@ -82,3 +86,10 @@ def test_fetch_folder(
     assert isinstance(raw_bytes, bytes)
     assert raw_bytes.startswith(b"Return-Path: <john_mcafee@examplemail.com>")
     assert label == label_fixture
+
+
+def test_save_raw_email(eml_fixture: bytes, label_fixture: str, tmp_path: pathlib.Path) -> None:
+    uid = "123"
+    save_raw_email(uid, eml_fixture, label_fixture, path=tmp_path)
+    test_file = tmp_path / "inbox_personal" / "123_inbox.eml"
+    assert test_file.exists()
