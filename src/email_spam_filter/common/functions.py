@@ -9,6 +9,9 @@ import yaml
 
 from email_spam_filter.common.paths import CONFIG_PATH
 
+if typing.TYPE_CHECKING:
+    import pathlib
+
 
 def logger(level: int = logging.INFO) -> None:
     """Configure root logger with the specified level.
@@ -35,11 +38,11 @@ def simple_logger(level: int = logging.INFO) -> None:
     )
 
 
-def load_user_config() -> dict[str, typing.Any]:
+def load_user_config(path: pathlib.Path = CONFIG_PATH) -> dict[str, typing.Any]:
     """Load user config from a YAML file."""
-    if not CONFIG_PATH.exists():
+    if not path.exists():
         error_message = "Missing user_config.yml file."
         raise FileNotFoundError(error_message)
-    with CONFIG_PATH.open() as file:
+    with path.open() as file:
         user_config: dict[str, typing.Any] = yaml.safe_load(file)
         return user_config
