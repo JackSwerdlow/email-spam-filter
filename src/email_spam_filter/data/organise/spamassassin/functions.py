@@ -15,14 +15,14 @@ logger = logging.getLogger(__name__)
 
 
 def organise_spamassassin_data(
-    raw_external_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.raw_external,
+    external_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.external,
     raw_ham_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.raw_ham,
     raw_spam_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.raw_spam,
 ) -> None:
     """Reads the SpamAssassin external folders and copies each file into a ham or spam folder.
 
     Args:
-        raw_external_path: Path to the external sourced raw Spam Assassin dataset.
+        external_path: Path to the external sourced raw Spam Assassin dataset.
             (Default: `paths.SPAM_ASSASSIN_PATHS.raw_external`)
         raw_ham_path: Path to the folder where the ham .eml files will be stored.
             (Default: `paths.SPAM_ASSASSIN_PATHS.raw_ham`)
@@ -35,9 +35,9 @@ def organise_spamassassin_data(
     raw_spam_path.mkdir(parents=True, exist_ok=True)
 
     logger.info("Organising data...")
-    if not raw_external_path.is_dir():
+    if not external_path.is_dir():
         error_message = (
-            f"SpamAssassin data not found at {raw_external_path!r}. "
+            f"SpamAssassin data not found at {external_path!r}. "
             "Please verify that the dataset directory exists and contains subfolders "
             "containing either the words 'ham' or 'spam'. You can download the correct data from: https://spamassassin.apache.org/old/publiccorpus/"
         )
@@ -47,7 +47,7 @@ def organise_spamassassin_data(
     ham_uid: int = 0
     spam_uid: int = 0
 
-    for subdir in sorted(raw_external_path.iterdir()):
+    for subdir in sorted(external_path.iterdir()):
         subdir_name = subdir.name.lower()
         if not subdir.is_dir() or not any(tag in subdir_name for tag in ("ham", "spam")):
             error_message = f"Incorrect folder '{subdir.name}' in SpamAssassin external data."
