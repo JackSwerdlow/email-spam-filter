@@ -15,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 def organise_spamassassin_data(
-    external_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.external,
-    raw_ham_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.raw_ham,
-    raw_spam_path: pathlib.Path = paths.SPAM_ASSASSIN_PATHS.raw_spam,
+    external_path: pathlib.Path | None = paths.SPAM_ASSASSIN_PATHS.external,
+    raw_ham_path: pathlib.Path | None = paths.SPAM_ASSASSIN_PATHS.raw_ham,
+    raw_spam_path: pathlib.Path | None = paths.SPAM_ASSASSIN_PATHS.raw_spam,
 ) -> None:
     """Reads the SpamAssassin external folders and copies each file into a ham or spam folder.
 
@@ -29,6 +29,10 @@ def organise_spamassassin_data(
         raw_spam_path: Path to the folder where the spam .eml files will be stored.
             (Default: `paths.SPAM_ASSASSIN_PATHS.raw_spam`)
     """
+    if not (external_path and raw_ham_path and raw_spam_path):
+        error_message = "All arguments must be valid pathlib.Path instances (not None)."
+        raise ValueError(error_message)
+
     logger.info("Starting SpamAssassin data organisation...")
     logger.info("Creating directories...")
     raw_ham_path.mkdir(parents=True, exist_ok=True)
