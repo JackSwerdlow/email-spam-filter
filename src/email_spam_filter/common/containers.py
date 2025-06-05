@@ -22,7 +22,7 @@ class DatasetPaths:
         labels: Path to the .json labels file.
     """
 
-    raw_external: pathlib.Path | None
+    external: pathlib.Path | None
     raw_ham: pathlib.Path | None
     raw_spam: pathlib.Path | None
     raw_inbox: pathlib.Path | None
