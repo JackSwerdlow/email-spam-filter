@@ -15,14 +15,14 @@ logger = logging.getLogger(__name__)
 
 
 def organise_trec_data(
-    raw_external_path: pathlib.Path = paths.TREC_PATHS.raw_external,
+    external_path: pathlib.Path = paths.TREC_PATHS.external,
     raw_ham_path: pathlib.Path = paths.TREC_PATHS.raw_ham,
     raw_spam_path: pathlib.Path = paths.TREC_PATHS.raw_spam,
 ) -> None:
     """Reads the TREC index and copies each file into a ham or spam folder.
 
     Args:
-        raw_external_path: Path to the external sourced raw TREC dataset.
+        external_path: Path to the external sourced TREC dataset.
             (Default: `paths.TREC_PATHS.raw_external`)
         raw_ham_path: Path to the folder where the ham .eml files will be stored.
             (Default: `paths.TREC_PATHS.raw_ham`)
@@ -35,7 +35,7 @@ def organise_trec_data(
     raw_spam_path.mkdir(parents=True, exist_ok=True)
 
     logger.info("Organising data...")
-    index_path = raw_external_path / "full" / "index"
+    index_path = external_path / "full" / "index"
     if not index_path.is_file():
         error_message = (
             f"Index file not found at {index_path!r}. Please verify that the TREC "
@@ -54,7 +54,7 @@ def organise_trec_data(
             if label not in ("ham", "spam"):
                 error_message = f"Invalid tag {label} in index"
                 raise RuntimeError(error_message)
-            src = (raw_external_path / "full" / rel_path).resolve()
+            src = (external_path / "full" / rel_path).resolve()
             if not src.is_file():
                 missing_files.append(src)
                 logger.debug("[!] Data file missing: %s", src)
