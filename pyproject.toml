@@ -131,6 +131,7 @@ mypy = "^1.15.0"
 pre-commit = "^4.2.0"
 types-pyyaml = "^6.0.12.20250516"
 pytest-mock = "^3.14.1"
+pandas-stubs = "^2.2.3.250527"
 
 [build-system]
 requires = ["poetry-core"]
