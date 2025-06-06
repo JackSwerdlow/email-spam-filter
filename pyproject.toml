@@ -120,6 +120,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 keyrings-alt = "^5.0.2"
+pydantic = "^2.11.5"
+bs4 = "^0.0.2"
+pandas = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
@@ -128,6 +131,7 @@ mypy = "^1.15.0"
 pre-commit = "^4.2.0"
 types-pyyaml = "^6.0.12.20250516"
 pytest-mock = "^3.14.1"
+pandas-stubs = "^2.2.3.250527"
 
 [build-system]
 requires = ["poetry-core"]
