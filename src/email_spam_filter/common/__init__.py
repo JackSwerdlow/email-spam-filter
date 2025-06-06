@@ -14,6 +14,10 @@ __all__ = (
     "IMAP_HOST",
     "KEYRING_SERVICE",
     "USER_EMAIL",
+    "AttributeData",
+    "EmailData",
+    "TagData",
+    "ValueData",
     "logger",
     "paths",
     "simple_logger",
@@ -25,6 +29,12 @@ from email_spam_filter.common.constants import (
     IMAP_HOST,
     KEYRING_SERVICE,
     USER_EMAIL,
+)
+from email_spam_filter.common.containers import (
+    AttributeData,
+    EmailData,
+    TagData,
+    ValueData,
 )
 from email_spam_filter.common.functions import (
     logger,
