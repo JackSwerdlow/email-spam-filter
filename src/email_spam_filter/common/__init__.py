@@ -1,6 +1,7 @@
 """Common utilities and shared data structures for the email-spam-filter project.
 
 Modules:
+    containers: Shared dataclass definitions for structured data exchange across modules.
     constants: Global constants and user configurations values.
     functions: Generic utility functions.
     paths: Paths to important project resources.
