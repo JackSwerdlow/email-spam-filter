@@ -7,6 +7,8 @@ A personal learning project: building a machine‑learning‑powered spam filter
 This is a personal project that uses machine learning to classify emails as spam or ham (real). It supports:
 
 - Fetching and storing your own inbox data [Currently only from Virgin Media inboxes.]
+- Organizing public datasets (TREC, SpamAssassin) [Currently datasets must be downloaded by user.]
+
 ---
 
 ## Quick‑Start Guide
@@ -46,23 +48,32 @@ email-spam-filter/
 │   ├─ raw/                           # Raw .eml files.
 │   └─ raw_external/                  # Raw unformatted external databases (e.g TREC Public Copora)
 ├─ scripts/                           # Example scripts to show functionality.
-│   └─ fetch_inbox.py/                # Script that fetches emails as .eml files from an inbox using IMAP.
+│   ├─ fetch_imap_inbox.py            # Script that fetches emails as .eml files from an inbox using IMAP.
+|   └─ organise_external_data.py      # Script that organises external datasets into valid .eml files.
 ├─ src/
 │   └─ email_spam_filter/             # The email_spam_filter package.
 │       ├─ __init__.py
 │       ├─ common/                    # Module with common utilities and classes used in other modules.
 │       │   ├─ __init__.py
 │       │   ├─ constants.py
+│       │   ├─ containers.py
 │       │   ├─ functions.py
 │       │   └─ paths.py
-│       └─ data/                      # Module for data handling.
+│       └─ data/                      # Module specifically for data collection, processing and organising.
 │           ├─ __init__.py
-│           └─ collection/
+│           ├─ collection/
+│           │   ├─ __init__.py
+│           │   └─ personal/
+│           │       ├─ __init__.py
+│           │       └─ functions.py
+│           └─ organise/
 │               ├─ __init__.py
-│               └─ personal/
+│               ├─ spamassassin/
+│               │   ├─ __init__.py
+│               │   └─ functions.py
+│               └─ trec/
 │                   ├─ __init__.py
 │                   └─ functions.py
-│
 ├─ tests/                             # Unit tests
 ├─ .gitignore
 ├─ conda-lock.yml
@@ -99,4 +110,12 @@ python -m keyring set virgin-imap your_username@virginmedia.com
 
 #2 Fetch your inbox
 poetry run python scripts/fetch_imap_inbox.py
+
+#3 Download and unzip the following datasets into the data/raw_external folder. (OPTIONAL)
+# TREC Public Corpus https://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo
+# SpamAssassin Public Corpus https://spamassassin.apache.org/old/publiccorpus/
+#Ensure they are stored and named like data/raw_external/trec, data/raw_external/spamassassin, etc.
+
+#4 Organise the external databases into a parsable format. (OPTIONAL)
+poetry run python scripts/organise_external_data.py
 ```
