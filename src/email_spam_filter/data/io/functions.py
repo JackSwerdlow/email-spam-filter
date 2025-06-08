@@ -311,7 +311,7 @@ def _extract_link_contexts(
     return tuple(full_urls), tuple(contexts)
 
 
-def serialize_email_data(email_data_list: list[EmailData], path: str) -> None:
+def serialize_email_data(email_data_list: list[EmailData], path: pathlib.Path) -> None:
     """Serialize a list of EmailData objects to a Parquet file.
 
     Args:
