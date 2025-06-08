@@ -56,3 +56,9 @@ PERSONAL_PATHS = DatasetPaths(
     labels=None,
 )
 """Paths for the users personal email data."""
+
+DATASET_PATHS = {
+    "trec": TREC_PATHS,
+    "spamassassin": SPAM_ASSASSIN_PATHS,
+    "personal": PERSONAL_PATHS,
+}
