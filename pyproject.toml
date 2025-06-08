@@ -135,6 +135,9 @@ types-pyyaml = "^6.0.12.20250516"
 pytest-mock = "^3.14.1"
 pandas-stubs = "^2.2.3.250527"
 
+[tool.poetry.scripts]
+setup = "email_spam_filter.setup:create_default_env_file"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
