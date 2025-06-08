@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import dataclasses
 import typing
 
 import pydantic
 import pydantic_settings
 
 if typing.TYPE_CHECKING:
-    import pathlib
+    from pathlib import Path
 
 
 class UserConfig(pydantic_settings.BaseSettings):
@@ -30,8 +29,7 @@ class UserConfig(pydantic_settings.BaseSettings):
     model_config = pydantic_settings.SettingsConfigDict(frozen=True, env_file=".env")
 
 
-@dataclasses.dataclass(frozen=True)
-class DatasetPaths:
+class DatasetPaths(pydantic.BaseModel):
     """Holds all the Path objects for a given dataset.
 
     Attributes:
@@ -43,12 +41,14 @@ class DatasetPaths:
         labels: Path to the .json labels file.
     """
 
-    external: pathlib.Path | None
-    raw_ham: pathlib.Path | None
-    raw_spam: pathlib.Path | None
-    raw_inbox: pathlib.Path | None
-    processed: pathlib.Path | None
-    labels: pathlib.Path | None
+    external: Path | None = None
+    raw_ham: Path | None = None
+    raw_spam: Path | None = None
+    raw_inbox: Path | None = None
+    processed: Path | None = None
+    labels: Path | None = None
+
+    model_config = pydantic.ConfigDict(frozen=True, extra="allow")
 
 
 class FrozenBaseModel(pydantic.BaseModel):
