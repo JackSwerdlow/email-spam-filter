@@ -124,6 +124,7 @@ keyrings-alt = "^5.0.2"
 pydantic = "^2.11.5"
 bs4 = "^0.0.2"
 pandas = "^2.3.0"
+pyarrow = "^20.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
