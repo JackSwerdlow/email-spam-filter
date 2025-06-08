@@ -6,9 +6,28 @@ import dataclasses
 import typing
 
 import pydantic
+import pydantic_settings
 
 if typing.TYPE_CHECKING:
     import pathlib
+
+
+class UserConfig(pydantic_settings.BaseSettings):
+    """Configuration loaded from the environment or a .env file.
+
+    Attributes:
+        user_email: Email address used to log in to the IMAP server.
+        imap_host: IMAP server host for the email provider.
+        keyring_service: Service name used by keyring for password retrieval.
+        folder_map: Mapping of IMAP folder names to short local labels.
+    """
+
+    user_email: str
+    imap_host: str
+    keyring_service: str
+    folder_map: dict[str, str]
+
+    model_config = pydantic_settings.SettingsConfigDict(frozen=True, env_file=".env")
 
 
 @dataclasses.dataclass(frozen=True)
@@ -35,7 +54,7 @@ class DatasetPaths:
 class FrozenBaseModel(pydantic.BaseModel):
     """Pydantic BaseModel configured to be immutable."""
 
-    model_config = {"frozen": True}
+    model_config = pydantic.ConfigDict(frozen=True)
 
 
 class ValueData(FrozenBaseModel):
