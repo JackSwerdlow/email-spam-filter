@@ -116,7 +116,7 @@ def fetch_and_save_emails(limit: int | None = None, *, path: pathlib.Path = path
     """
     logger.info("Starting email download process.")
     if USER_EMAIL == "your_username@example.com":
-        error_message = "USER_EMAIL is not configured. Please update your user_config.yml file."
+        error_message = "USER_EMAIL is not configured. Please edit your `.env` file."
         raise RuntimeError(error_message)
 
     password = get_imap_password()
