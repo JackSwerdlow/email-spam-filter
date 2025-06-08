@@ -24,11 +24,12 @@ from email_spam_filter.data.io.functions import create_email_data, serialize_ema
 if __name__ == "__main__":
     logger()
     for dataset in paths.DATASET_PATHS.values():
-        for field_name in ("raw_ham", "raw_spam", "raw_inbox"):
-            folder = getattr(dataset, field_name)
-            if not folder or not folder.exists():
-                continue
-            eml_paths = sorted(folder.glob("*.eml"))
-            email_data = [create_email_data(path) for path in eml_paths]
-            if dataset.processed:
-                serialize_email_data(email_data, path=dataset.processed)
+        for field_name, folder in dataset.model_dump().items():
+            if field_name.startswith("raw_") and folder:
+                if not folder.exists():
+                    print(f"Cannot find {folder}")
+                    continue
+                eml_paths = sorted(folder.glob("*.eml"))
+                email_data = [create_email_data(path) for path in eml_paths]
+                if dataset.processed:
+                    serialize_email_data(email_data, path=dataset.processed)
