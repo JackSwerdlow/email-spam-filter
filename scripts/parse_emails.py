@@ -30,4 +30,5 @@ if __name__ == "__main__":
                 continue
             eml_paths = sorted(folder.glob("*.eml"))
             email_data = [create_email_data(path) for path in eml_paths]
-            serialize_email_data(email_data, path=dataset.processed)
+            if dataset.processed:
+                serialize_email_data(email_data, path=dataset.processed)
