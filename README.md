@@ -33,7 +33,10 @@ conda activate email-spam-filter
 #5 Install Poetry dependancies
 poetry install
 
-# 6 Install pre-commit hooks (If you plan on contributing)
+#6 Setup default `.env` file with poetry
+poetry run setup
+
+# 7 Install pre-commit hooks (If you plan on contributing)
 poetry run pre-commit install
 poetry run pre-commit install --hook-type pre-push
 ```
