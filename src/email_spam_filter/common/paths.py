@@ -32,7 +32,7 @@ TREC_PATHS: DatasetPaths = DatasetPaths(
     raw_ham=RAW_DIR / "trec_ham",
     raw_spam=RAW_DIR / "trec_spam",
     raw_inbox=None,
-    processed=PROCESSED_DIR / "trec_processed",
+    processed=PROCESSED_DIR / "trec_processed.parquet",
     labels=None,
 )
 """Paths for the [TREC Public Spam Corpus dataset](https://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo)."""
@@ -42,7 +42,7 @@ SPAM_ASSASSIN_PATHS = DatasetPaths(
     raw_ham=RAW_DIR / "spamassassin_ham",
     raw_spam=RAW_DIR / "spamassassin_spam",
     raw_inbox=None,
-    processed=PROCESSED_DIR / "spamassassin_processed",
+    processed=PROCESSED_DIR / "spamassassin_processed.parquet",
     labels=None,
 )
 """Paths for the [SpamAssassin Public Spam Corpus dataset](https://spamassassin.apache.org/old/publiccorpus/)."""
@@ -52,7 +52,7 @@ PERSONAL_PATHS = DatasetPaths(
     raw_ham=None,
     raw_spam=RAW_DIR / "personal_spam",
     raw_inbox=RAW_DIR / "personal_spam",
-    processed=PROCESSED_DIR / "personal_processed",
+    processed=PROCESSED_DIR / "personal_processed.parquet",
     labels=None,
 )
 """Paths for the users personal email data."""
