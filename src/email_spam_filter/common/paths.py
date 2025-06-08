@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from email_spam_filter.common.constants import FOLDER_MAP
 from email_spam_filter.common.containers import DatasetPaths
 
 BASE_DIR = Path(__file__).resolve().parents[3]
@@ -49,11 +50,9 @@ SPAM_ASSASSIN_PATHS = DatasetPaths(
 
 PERSONAL_PATHS = DatasetPaths(
     external=RAW_EXTERNAL_DIR / "personal",
-    raw_ham=None,
-    raw_spam=RAW_DIR / "personal_spam",
-    raw_inbox=RAW_DIR / "personal_spam",
     processed=PROCESSED_DIR / "personal_processed.parquet",
     labels=None,
+    **{f"raw_{label}": RAW_DIR / f"personal_{label}" for label in FOLDER_MAP.values()},
 )
 """Paths for the users personal email data."""
 
