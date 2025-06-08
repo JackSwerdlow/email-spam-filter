@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
+import functools
 import logging
-import typing
 
-import yaml
+import pydantic
 
-from email_spam_filter.common.paths import CONFIG_PATH
-
-if typing.TYPE_CHECKING:
-    import pathlib
+from email_spam_filter.common.containers import UserConfig
 
 
 def logger(level: int = logging.INFO) -> None:
@@ -38,11 +35,15 @@ def simple_logger(level: int = logging.INFO) -> None:
     )
 
 
-def load_user_config(path: pathlib.Path = CONFIG_PATH) -> dict[str, typing.Any]:
-    """Load user config from a YAML file."""
-    if not path.exists():
-        error_message = "Missing user_config.yml file."
-        raise FileNotFoundError(error_message)
-    with path.open() as file:
-        user_config: dict[str, typing.Any] = yaml.safe_load(file)
-        return user_config
+@functools.lru_cache
+def load_user_config() -> UserConfig:
+    """Load user config from a .env file."""
+    try:
+        return UserConfig()
+    except pydantic.ValidationError as exception:
+        missing = ", ".join(str(error["loc"][0]) for error in exception.errors())
+        error_message = (
+            f"Missing configuration values: {missing}. "
+            "Run `poetry run setup` then edit the created `.env` file."
+        )
+        raise RuntimeError(error_message) from exception
