@@ -88,16 +88,22 @@ email-spam-filter/
 ```
 ## Configuration
 
-Project behaviour can be customized in `user_config.yml`:
+Project behaviour can be customized in `.env` file that is created if `poetry run setup` was
+correctly run:
 
-```yaml
-user_email: "your_username@example.com"
-imap_host: "imap.virginmedia.com"
-keyring_service: "virgin-imap"
-folder_map:
-  INBOX: inbox
-  Spam: spam
 ```
+USER_EMAIL='your_username@example.com'
+IMAP_HOST='imap.virginmedia.com'
+KEYRING_SERVICE='virgin-imap'
+FOLDER_MAP='{"INBOX": "inbox", "Spam": "spam"}'
+```
+| Variable              | Purpose                                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **`USER_EMAIL`**      | Email address used to log in to the IMAP server.                                                                             |
+| **`IMAP_HOST`**       | Hostname of your email provider’s IMAP server.                                                                               |
+| **`KEYRING_SERVICE`** | Service key under which the IMAP password is stored in your OS keyring.                                                      |
+| **`FOLDER_MAP`**      | JSON mapping of IMAP folder names to short, local labels (add or modify as needed - for example: `{... , "Trash":"trash"}`). |
+
 
 ## Running Example Scripts
 
