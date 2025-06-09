@@ -35,3 +35,7 @@ def create_default_env_file() -> None:
         key_to_set="FOLDER_MAP",
         value_to_set='{"INBOX": "inbox", "Spam": "spam"}',
     )
+
+
+if __name__ == "__main__":
+    create_default_env_file()
