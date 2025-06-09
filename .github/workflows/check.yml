@@ -27,7 +27,7 @@ jobs:
         run: python -m poetry install --with=dev
       - name: Run setup script (Temporary fix to prevent failed checks in Proof of Concept branch)
         run: |
-          python -m email_spam_filter.setup || echo "Skipping setup: script not defined or failed"
+          python src/email_spam_filter/setup.py || echo "Skipping setup: script not defined or failed"
       - name: Lint with Ruff
         run: python -m poetry run ruff check .
       - name: Type check with mypy
