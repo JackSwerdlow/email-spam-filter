@@ -37,6 +37,8 @@ class TestLoadUserConfig:
         user_config_fixture: pathlib.Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         monkeypatch.chdir(user_config_fixture.parent)
+        for var in ("USER_EMAIL", "IMAP_HOST", "KEYRING_SERVICE", "FOLDER_MAP"):
+            monkeypatch.delenv(var, raising=False)
         config = load_user_config()
         assert config.user_email == "test@example.com"
         assert config.imap_host == "imap.test.com"
@@ -49,5 +51,7 @@ class TestLoadUserConfig:
         tmp_path: pathlib.Path, monkeypatch: pytest.MonkeyPatch
     ) -> None:
         monkeypatch.chdir(tmp_path)
+        for var in ("USER_EMAIL", "IMAP_HOST", "KEYRING_SERVICE", "FOLDER_MAP"):
+            monkeypatch.delenv(var, raising=False)
         with pytest.raises(RuntimeError, match="Missing configuration values: "):
             load_user_config()
