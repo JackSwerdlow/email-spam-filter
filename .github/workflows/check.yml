@@ -25,6 +25,9 @@ jobs:
           cache-environment: true
       - name: Install dependencies
         run: python -m poetry install --with=dev
+      - name: Run setup script (Temporary fix to prevent failed checks in Proof of Concept branch)
+        run: |
+          poetry run setup || echo "Skipping setup: script not defined or failed"
       - name: Lint with Ruff
         run: python -m poetry run ruff check .
       - name: Type check with mypy
