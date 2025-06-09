@@ -7,6 +7,8 @@ A personal learning project: building a machine‑learning‑powered spam filter
 This is a personal project that uses machine learning to classify emails as spam or ham (real). It supports:
 
 - Fetching and storing your own inbox data [Currently only from Virgin Media inboxes.]
+- Organizing public datasets (TREC, SpamAssassin) [Currently datasets must be downloaded by user.]
+
 ---
 
 ## Quick‑Start Guide
@@ -31,7 +33,10 @@ conda activate email-spam-filter
 #5 Install Poetry dependancies
 poetry install
 
-# 6 Install pre-commit hooks (If you plan on contributing)
+#6 Setup default `.env` file with poetry
+poetry run setup
+
+# 7 Install pre-commit hooks (If you plan on contributing)
 poetry run pre-commit install
 poetry run pre-commit install --hook-type pre-push
 ```
@@ -46,23 +51,32 @@ email-spam-filter/
 │   ├─ raw/                           # Raw .eml files.
 │   └─ raw_external/                  # Raw unformatted external databases (e.g TREC Public Copora)
 ├─ scripts/                           # Example scripts to show functionality.
-│   └─ fetch_inbox.py/                # Script that fetches emails as .eml files from an inbox using IMAP.
+│   ├─ fetch_imap_inbox.py            # Script that fetches emails as .eml files from an inbox using IMAP.
+|   └─ organise_external_data.py      # Script that organises external datasets into valid .eml files.
 ├─ src/
 │   └─ email_spam_filter/             # The email_spam_filter package.
 │       ├─ __init__.py
 │       ├─ common/                    # Module with common utilities and classes used in other modules.
 │       │   ├─ __init__.py
 │       │   ├─ constants.py
+│       │   ├─ containers.py
 │       │   ├─ functions.py
 │       │   └─ paths.py
-│       └─ data/                      # Module for data handling.
+│       └─ data/                      # Module specifically for data collection, processing and organising.
 │           ├─ __init__.py
-│           └─ collection/
+│           ├─ collection/
+│           │   ├─ __init__.py
+│           │   └─ personal/
+│           │       ├─ __init__.py
+│           │       └─ functions.py
+│           └─ organise/
 │               ├─ __init__.py
-│               └─ personal/
+│               ├─ spamassassin/
+│               │   ├─ __init__.py
+│               │   └─ functions.py
+│               └─ trec/
 │                   ├─ __init__.py
 │                   └─ functions.py
-│
 ├─ tests/                             # Unit tests
 ├─ .gitignore
 ├─ conda-lock.yml
@@ -74,16 +88,22 @@ email-spam-filter/
 ```
 ## Configuration
 
-Project behaviour can be customized in `user_config.yml`:
+Project behaviour can be customized in `.env` file that is created if `poetry run setup` was
+correctly run:
 
-```yaml
-user_email: "your_username@example.com"
-imap_host: "imap.virginmedia.com"
-keyring_service: "virgin-imap"
-folder_map:
-  INBOX: inbox
-  Spam: spam
 ```
+USER_EMAIL='your_username@example.com'
+IMAP_HOST='imap.virginmedia.com'
+KEYRING_SERVICE='virgin-imap'
+FOLDER_MAP='{"INBOX": "inbox", "Spam": "spam"}'
+```
+| Variable              | Purpose                                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **`USER_EMAIL`**      | Email address used to log in to the IMAP server.                                                                             |
+| **`IMAP_HOST`**       | Hostname of your email provider’s IMAP server.                                                                               |
+| **`KEYRING_SERVICE`** | Service key under which the IMAP password is stored in your OS keyring.                                                      |
+| **`FOLDER_MAP`**      | JSON mapping of IMAP folder names to short, local labels (add or modify as needed - for example: `{... , "Trash":"trash"}`). |
+
 
 ## Running Example Scripts
 
@@ -99,4 +119,12 @@ python -m keyring set virgin-imap your_username@virginmedia.com
 
 #2 Fetch your inbox
 poetry run python scripts/fetch_imap_inbox.py
+
+#3 Download and unzip the following datasets into the data/raw_external folder. (OPTIONAL)
+# TREC Public Corpus https://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo
+# SpamAssassin Public Corpus https://spamassassin.apache.org/old/publiccorpus/
+#Ensure they are stored and named like data/raw_external/trec, data/raw_external/spamassassin, etc.
+
+#4 Organise the external databases into a parsable format. (OPTIONAL)
+poetry run python scripts/organise_external_data.py
 ```
