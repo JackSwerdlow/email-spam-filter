@@ -81,13 +81,16 @@ def _label_single_email(email: EmailData, labels: dict[str, int], label_path: Pa
     return True
 
 
-def run_labelling_session(email_path: Path, label_path: Path) -> None:
+def run_labelling_session(email_path: Path | None, label_path: Path | None) -> None:
     """Launch an interactive session for labelling a set of emails.
 
     Args:
         email_path: Path to the input Parquet file containing email data.
         label_path: Path to the JSON file where labels will be saved.
     """
+    if not email_path or not label_path:
+        error_message = "Please ensure both input paths are correctly defined."
+        raise TypeError(error_message)
     emails = deserialize_email_data(email_path)
     labels = _load_existing_labels(label_path)
 
