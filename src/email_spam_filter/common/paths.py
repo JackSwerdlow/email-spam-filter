@@ -51,7 +51,7 @@ SPAM_ASSASSIN_PATHS = DatasetPaths(
 PERSONAL_PATHS = DatasetPaths(
     external=RAW_EXTERNAL_DIR / "personal",
     processed=PROCESSED_DIR / "personal_processed.parquet",
-    labels=None,
+    labels=LABELS_DIR / "personal_labels.json",
     **{f"raw_{label}": RAW_DIR / f"personal_{label}" for label in FOLDER_MAP.values()},
 )
 """Paths for the users personal email data."""
