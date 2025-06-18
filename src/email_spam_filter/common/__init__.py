@@ -18,6 +18,7 @@ __all__ = (
     "EmailData",
     "TagData",
     "ValueData",
+    "clean_html",
     "logger",
     "paths",
     "simple_logger",
@@ -37,6 +38,7 @@ from email_spam_filter.common.containers import (
     ValueData,
 )
 from email_spam_filter.common.functions import (
+    clean_html,
     logger,
     simple_logger,
 )
