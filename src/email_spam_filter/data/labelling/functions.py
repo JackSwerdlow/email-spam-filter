@@ -29,6 +29,7 @@ def _load_existing_labels(path: Path) -> dict[str, int]:
     if path.exists():
         labels_dict: dict[str, int] = json.loads(path.read_text())
         return labels_dict
+    logger.info("Labels JSON file not found, creating new labels dictionary at %s", path)
     return {}
 
 
@@ -39,7 +40,8 @@ def _save_labels(path: Path, labels: dict[str, int]) -> None:
         path: Destination path to save the labels.
         labels: A dictionary of email ID -> label mappings to save.
     """
-    path.write_text(json.dumps(labels, indent=2))
+    sorted_labels = dict(sorted(labels.items(), key=lambda x: int(x[0])))
+    path.write_text(json.dumps(sorted_labels, indent=2))
 
 
 def _label_single_email(email: EmailData, labels: dict[str, int], label_path: Path) -> bool:
