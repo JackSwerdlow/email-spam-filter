@@ -7,14 +7,12 @@ Modules:
 
 from __future__ import annotations
 
-__all__ = (
-    "ModelPipeline",
-    "split_labelled_and_inbox",
-)
+__all__ = ("ModelPipeline", "split_labelled_and_inbox", "to_features")
 
 from email_spam_filter.ml.common.containers import (
     ModelPipeline,
 )
 from email_spam_filter.ml.common.functions import (
     split_labelled_and_inbox,
+    to_features,
 )
