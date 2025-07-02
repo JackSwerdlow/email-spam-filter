@@ -6,11 +6,15 @@ import functools
 import logging
 import quopri
 import re
+import typing
 
 import pydantic
 from bs4 import BeautifulSoup
 
 from email_spam_filter.common.containers import UserConfig
+
+if typing.TYPE_CHECKING:
+    from email_spam_filter.common.containers import EmailData
 
 
 def logger(level: int = logging.INFO) -> None:
@@ -78,3 +82,20 @@ def clean_html(html: str) -> str:
         logger.warning("Encountered error trying to clean HTML content, see DEBUG for details.")
         logger.debug(error)
         return html
+
+
+def email_by_id(email_id: int, emails: list[EmailData]) -> EmailData:
+    """Return the EmailData object that matches the given id.
+
+    Args:
+        email_id: Unique numeric identifier of the email.
+        emails: List of all EmailData instances.
+
+    Returns:
+        The matching EmailData instance.
+    """
+    for e in emails:
+        if e.id == email_id:
+            return e
+    error_message = f"Email id {email_id} not found in email list."
+    raise ValueError(error_message)
