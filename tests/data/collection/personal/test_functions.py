@@ -21,7 +21,7 @@ if typing.TYPE_CHECKING:
 
 @pytest.fixture
 def eml_fixture() -> bytes:
-    path = pathlib.Path(__file__).parent / "example_email.eml"
+    path = pathlib.Path(__file__).parents[2] / "example_email.eml"
     return path.read_bytes()
 
 
