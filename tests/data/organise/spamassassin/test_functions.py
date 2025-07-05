@@ -28,7 +28,7 @@ def raw_external_spamassassin_path_fixture(tmp_path: pathlib.Path) -> pathlib.Pa
 
 @pytest.fixture
 def raw_spamassassin_path_fixture(tmp_path: pathlib.Path) -> tuple[pathlib.Path, pathlib.Path]:
-    return tmp_path / "ham_spamassassin", tmp_path / "spam_spamassassin"
+    return tmp_path / "spamassassin_ham", tmp_path / "spamassassin_spam"
 
 
 class TestOrganiseSpamAssassinData:
