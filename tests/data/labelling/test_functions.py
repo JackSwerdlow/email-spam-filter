@@ -22,7 +22,7 @@ if typing.TYPE_CHECKING:
 
 @pytest.fixture
 def mock_emaildata_fixture(mocker: pytest_mock.MockerFixture) -> EmailData:
-    return mocker.MagicMock(
+    mock = mocker.MagicMock(
         id=101,
         from_addr="tester@example.net",
         n_links=0,
@@ -31,6 +31,7 @@ def mock_emaildata_fixture(mocker: pytest_mock.MockerFixture) -> EmailData:
         body="<p>Hi</p>",
         spec=["id", "from_addr", "n_links", "has_attach", "subject", "body"],
     )
+    return typing.cast("EmailData", mock)
 
 
 @pytest.fixture
