@@ -19,14 +19,12 @@ X-Env-Rcptto: user@example.com
 X-SourceIP: 192.0.2.10
 X-CNFS-Analysis: v=2.4 cv=abcd1234 c=1 sm=1 tr=0 ts=1234567890 cx=testing
  a=ExampleSignature==:117 a=AnotherSignature==:17
-
 Received: from mailout.examplemail.com ([192.0.2.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
 	by mail-in.example.com with ESMTPS
 	id MESSAGEID123; Tue, 18 Sep 1945 20:59:18 +0200
 Received: by mailout.examplemail.com with SMTP id smtpid1234
         for <user@example.com>; Tue, 18 Sep 1945 11:59:18 -0700 (PDT)
-
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=examplemail.com; s=key1; t=1748890758;
         h=to:message-id:from:mime-version:subject:date;
@@ -34,13 +32,11 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         b=abcdefg1234567890abcdefg1234567890abcdefg1234567890abcdefg1234567890==
 X-Received: by 2001:db8::1;
         Tue, 18 Sep 1945 11:59:17 -0700 (PDT)
-
 Return-Path: <john_mcafee@examplemail.com>
 Received: from mailer.example.org (example.org [198.51.100.22])
         by smtp.examplemail.com with ESMTPSA id smtpid5678
         for <user@example.com>;
         Tue, 18 Sep 1945 11:59:17 -0700 (PDT)
-
 Content-Type: text/html; charset="UTF-8"
 Date: Tue, 18 Sep 1945 20:57:38 +0200
 Subject: ACTION REQUIRED: Your Antivirus License Expired
