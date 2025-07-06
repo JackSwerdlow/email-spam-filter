@@ -107,7 +107,7 @@ def parse_email_message(email_message: EmailMessage, uid: str, folder_label: str
     return EmailData(
         id=int(id_str),
         tag=tag,
-        source=folder_label.split("_", 1)[1],
+        source=folder_label.split("_", 1)[0],
         subject=subject,
         body=plain_body,
         unique_html_tags=tag_counts,
@@ -192,7 +192,11 @@ def _extract_parts_nonmultipart(
     html_body = ""
     payload = email_message.get_payload()
     if isinstance(payload, str) and payload.strip():
-        plain_body = payload.strip()
+        content = payload.strip()
+        if email_message.get_content_type() == "text/plain":
+            plain_body = content
+        elif email_message.get_content_type() == "text/html":
+            html_body = content
     else:
         try:
             content = _safe_get_content(email_message, uid, folder_label)
