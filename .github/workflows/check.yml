@@ -25,9 +25,8 @@ jobs:
           cache-environment: true
       - name: Install dependencies
         run: python -m poetry install --with=dev
-      - name: Run setup script (Temporary fix to prevent failed checks in Proof of Concept branch)
-        run: |
-          python src/email_spam_filter/setup.py || echo "Skipping setup: script not defined or failed"
+      - name: Run setup script
+        run: python src/email_spam_filter/setup.py
       - name: Lint with Ruff
         run: python -m poetry run ruff check .
       - name: Type check with mypy
