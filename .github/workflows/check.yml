@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: python -m poetry install --with=dev
       - name: Run setup script
-        run: python src/email_spam_filter/setup.py
+        run: python -m poetry run setup
       - name: Lint with Ruff
         run: python -m poetry run ruff check .
       - name: Type check with mypy
