@@ -148,7 +148,7 @@ pandas-stubs = "^2.2.3.250527"
 scipy-stubs = "^1.16.0.2"
 
 [tool.poetry.scripts]
-setup = "email_spam_filter.setup:create_default_env_file"
+setup = "setup:create_default_env_file"
 
 [build-system]
 requires = ["poetry-core"]
