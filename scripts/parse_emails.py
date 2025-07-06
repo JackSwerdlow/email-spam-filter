@@ -23,13 +23,29 @@ from email_spam_filter.data.io.functions import create_email_data, serialize_ema
 
 if __name__ == "__main__":
     logger()
-    for dataset in paths.DATASET_PATHS.values():
-        for field_name, folder in dataset.model_dump().items():
-            if field_name.startswith("raw_") and folder:
-                if not folder.exists():
-                    print(f"Cannot find {folder}")
-                    continue
-                eml_paths = sorted(folder.glob("*.eml"))
-                email_data = [create_email_data(path) for path in eml_paths]
-                if dataset.processed:
-                    serialize_email_data(email_data, path=dataset.processed)
+
+    for dataset_name, dataset_paths in paths.DATASET_PATHS.items():
+        print(f"\nProcessing dataset: {dataset_name}")
+
+        for field_name, raw_folder in dataset_paths.model_dump().items():
+            if not field_name.startswith("raw_") or not raw_folder:
+                continue
+
+            print(f"  Reading emails from: {raw_folder}")
+            if not raw_folder.exists():
+                print(f"  [!] Skipped: {field_name} Folder not found.")
+                continue
+
+            eml_paths = sorted(raw_folder.glob("*.eml"))
+            if not eml_paths:
+                print(f"  [!] Skipped: {field_name} No .eml files found.")
+                continue
+
+            print(f"  Parsing {len(eml_paths)} email(s)...")
+            email_data = [create_email_data(path) for path in eml_paths]
+
+            if dataset_paths.processed:
+                print(f"  Serializing to: {dataset_paths.processed}")
+                serialize_email_data(email_data, path=dataset_paths.processed)
+
+    print("\nEmail parsing and serialization complete.")
