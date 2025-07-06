@@ -252,7 +252,10 @@ def _extract_unique_tag_data(html_body: str) -> tuple[TagData, ...]:
     unique_html_tags: list[TagData] = []
     tag_dict: dict[str, dict[str, typing.Any]] = {}
 
-    soup = bs4.BeautifulSoup(html_body, "html.parser")
+    try:
+        soup = bs4.BeautifulSoup(html_body, "html.parser")
+    except bs4.exceptions.ParserRejectedMarkup:
+        soup = bs4.BeautifulSoup(html_body, "html5lib")
     for tag in soup.find_all():
         if not isinstance(tag, bs4.Tag):
             continue
@@ -295,7 +298,10 @@ def _extract_link_contexts(
     contexts: list[str] = []
 
     if html_body:
-        soup = bs4.BeautifulSoup(html_body, "html.parser")
+        try:
+            soup = bs4.BeautifulSoup(html_body, "html.parser")
+        except bs4.exceptions.ParserRejectedMarkup:
+            soup = bs4.BeautifulSoup(html_body, "html5lib")
         for a in soup.find_all("a", href=True):
             if not isinstance(a, bs4.Tag):
                 continue
