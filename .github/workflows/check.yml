@@ -24,14 +24,14 @@ jobs:
           environment-name: email-spam-filter
           cache-environment: true
       - name: Install dependencies
-        run: python -m poetry install --with=dev
+        run: poetry install --with=dev
       - name: Run setup script
-        run: python -m poetry run setup
+        run: poetry run setup
       - name: Lint with Ruff
-        run: python -m poetry run ruff check .
+        run: poetry run ruff check .
       - name: Type check with mypy
-        run: python -m poetry run mypy .
+        run: poetry run mypy .
       - name: Test with pytest
-        run: python -m poetry run pytest
+        run: poetry run pytest
       - name: Check with pre-commit
         run: pre-commit run -a
