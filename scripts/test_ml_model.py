@@ -33,36 +33,37 @@ from email_spam_filter.data.io.functions import deserialize_email_data
 from email_spam_filter.ml.common import split_labelled_and_inbox
 from email_spam_filter.ml.models import MachineLearningModel
 
-logger()
+if __name__ == "__main__":
+    logger()
 
-if paths.PERSONAL_PATHS.processed:
-    emails = deserialize_email_data(paths.PERSONAL_PATHS.processed)
-labelled, inbox = split_labelled_and_inbox(emails)
+    if paths.PERSONAL_PATHS.processed:
+        emails = deserialize_email_data(paths.PERSONAL_PATHS.processed)
+    labelled, inbox = split_labelled_and_inbox(emails)
 
-model = MachineLearningModel.LOGISTIC_REGRESSION.pipeline()
-model.train(labelled)
+    model = MachineLearningModel.LOGISTIC_REGRESSION.pipeline()
+    model.train(labelled)
 
-model_features = get_model_features(model)
-print("\nTop 5 spam-indicative features:")
-for feat, w in list(model_features.items())[:5]:
-    print(f"  {feat}: {w:.3f}")
-print("\nTop 5 ham-indicative features:")
-for feat, w in reversed(list(model_features.items())[-5:]):
-    print(f"  {feat}: {w:.3f}")
+    model_features = get_model_features(model)
+    print("\nTop 5 spam-indicative features:")
+    for feat, w in list(model_features.items())[:5]:
+        print(f"  {feat}: {w:.3f}")
+    print("\nTop 5 ham-indicative features:")
+    for feat, w in reversed(list(model_features.items())[-5:]):
+        print(f"  {feat}: {w:.3f}")
 
-results = model.predict(inbox)
-ranked_results = results.sort_values(by=["probability", "id"], ascending=[False, True])
+    results = model.predict(inbox)
+    ranked_results = results.sort_values(by=["probability", "id"], ascending=[False, True])
 
-most_likely_spam_row = ranked_results.iloc[0]
-most_likely_spam_email = email_by_id(int(ranked_results.iloc[0]["id"]), inbox)
+    most_likely_spam_row = ranked_results.iloc[0]
+    most_likely_spam_email = email_by_id(int(ranked_results.iloc[0]["id"]), inbox)
 
-most_likely_ham_row = ranked_results.iloc[-1]
-most_likely_ham_email = email_by_id(int(ranked_results.iloc[-1]["id"]), inbox)
+    most_likely_ham_row = ranked_results.iloc[-1]
+    most_likely_ham_email = email_by_id(int(ranked_results.iloc[-1]["id"]), inbox)
 
-print("\nMost likely SPAM:")
-print(predicted_email_summary(most_likely_spam_email, most_likely_spam_row["probability"]))
-show_email_features(model, most_likely_spam_email, labelled, max_display=20)
+    print("\nMost likely SPAM:")
+    print(predicted_email_summary(most_likely_spam_email, most_likely_spam_row["probability"]))
+    show_email_features(model, most_likely_spam_email, labelled, max_display=20)
 
-print("\nMost likely HAM:")
-print(predicted_email_summary(most_likely_ham_email, most_likely_ham_row["probability"]))
-show_email_features(model, most_likely_ham_email, labelled, max_display=20)
+    print("\nMost likely HAM:")
+    print(predicted_email_summary(most_likely_ham_email, most_likely_ham_row["probability"]))
+    show_email_features(model, most_likely_ham_email, labelled, max_display=20)
