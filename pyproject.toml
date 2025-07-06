@@ -135,6 +135,7 @@ scikit-learn = "^1.7.0"
 shap = "^0.48.0"
 eli5 = "^0.16.0"
 matplotlib = "^3.10.3"
+html5lib = "^1.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
