@@ -30,7 +30,7 @@ def eml_file_path(tmp_path: pathlib.Path, eml_fixture: bytes) -> pathlib.Path:
     return eml_path
 
 
-class TestEmailUtils:
+class TestDataIO:
     @staticmethod
     def test_create_email_data(eml_file_path: pathlib.Path) -> None:
         email_data = create_email_data(eml_file_path)
